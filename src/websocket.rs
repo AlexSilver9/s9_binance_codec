@@ -20,6 +20,10 @@ impl SubscriptionRequest {
         }
     }
 
+    pub fn to_json(&self) -> Result<String, serde_json::Error> {
+        serde_json::to_string(&self)
+    }
+
     pub fn add_stream(&mut self, stream: &str) {
         self.params.push(stream.to_string());
     }
@@ -32,6 +36,12 @@ pub struct SubscriptionResponse {
     pub result: Option<Vec<String>>,
     #[serde(alias = "id")]
     pub id: u64,
+}
+
+impl SubscriptionResponse {
+    pub fn from_json(json: &str) -> Result<Self, serde_json::Error> {
+        serde_json::from_str(json)
+    }
 }
 
 #[cfg(test)]
